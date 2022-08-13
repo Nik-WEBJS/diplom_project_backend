@@ -6,7 +6,9 @@ import {registerValidator, loginValidator, postCreateValidator} from "./validati
 import {checkAuth, handleValidationErorrs} from './utils/index.js';
 import {PostController, UserController } from './controllers/index.js'
 
-mongoose.connect('mongodb+srv://admin:QWE123@cluster0.2q58cpl.mongodb.net/blog?retryWrites=true&w=majority').then(()=>
+mongoose.connect(
+    process.env.MONGODB_URI
+).then(()=>
     console.log(
         "DB OK"
     ))
@@ -48,7 +50,7 @@ app.get('/posts/:id', PostController.getOne)
 app.delete('/posts/:id',checkAuth, PostController.remove)
 app.patch('/posts/:id',checkAuth, postCreateValidator, handleValidationErorrs, PostController.update)
 
-app.listen(4444, (err)=>{
+app.listen(process.env.PORT || 4444, (err)=>{
     if(err){
         return console.log(err)
     }
